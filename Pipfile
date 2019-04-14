@@ -5,9 +5,22 @@ verify_ssl = true
 
 [dev-packages]
 pre-commit = "*"
+black = "*"
+pytest = "*"
+webtest = "*"
+flake8 = "*"
+bandit = "*"
 
 [packages]
 bottle = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
+
+[scripts]
+test = "pytest ."
+lint = "flake8 ."
+security = "bandit -r ."

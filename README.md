@@ -12,6 +12,10 @@ Make sure that you have [_Python 3.7_](https://www.python.org/downloads/) instal
 $ make setup
 ```
 
+## Running
+
+To run the project under development mode, run `make run`. It's going to use Bottle's development server, serving the service through `localhost:8080`.
+
 ## Contributing
 
 Please read the [CONTRIBUTING.md](CONTRIBUTING.md) guide.
