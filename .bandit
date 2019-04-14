@@ -1,0 +1,2 @@
+[bandit]
+exclude: tomaco/tests,.venv
