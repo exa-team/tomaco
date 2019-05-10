@@ -1,0 +1,9 @@
+.counter {
+    padding: 4rem;
+    text-align: center;
+}
+
+.counter__display {
+    display: block;
+    font-size: 4rem;
+}

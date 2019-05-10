@@ -5,7 +5,7 @@ lint:
 	@pipenv run security
 
 run:
-	pipenv run python tomaco/app.py
+	pipenv run python -m bottle --debug --reload tomaco.app
 
 setup:
 	pip install pipenv
