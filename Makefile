@@ -8,8 +8,11 @@ run:
 	pipenv run python -m bottle --debug --reload tomaco.app
 
 setup:
+	@echo "Installing Python dependencies..."
 	pip install pipenv
 	pipenv install --dev --deploy
+	@echo "Configuring pre-commit..."
+	pre-commit
 
 test:
 	pipenv run test
