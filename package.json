@@ -1,0 +1,38 @@
+{
+  "name": "tomaco",
+  "version": "0.0.1",
+  "description": "Another pomodoro app. But free and better. Like joining tomato and tabaco. Or not.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kplaube/tomaco.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kplaube/tomaco/issues"
+  },
+  "homepage": "https://github.com/kplaube/tomaco#readme",
+  "engines": {
+    "node": "10.15.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@types/jest": "^24.0.13",
+    "babel-brunch": "^7.0.1",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.13.0",
+    "jest": "^24.8.0",
+    "prettier": "^1.17.1"
+  },
+  "scripts": {
+    "lint": "eslint tomaco/static/src",
+    "test": "jest"
+  }
+}
