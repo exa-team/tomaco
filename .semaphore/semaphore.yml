@@ -10,33 +10,72 @@ blocks:
       env_vars:
         - name: PIPENV_VENV_IN_PROJECT
           value: "true"
+        - name: NODE_ENV
+          value: test
       prologue:
         commands:
           - sudo pip install pipenv
           - checkout
+          - nvm use
+          - node --version
+          - npm --version
       jobs:
-        - name: Install and cache dependencies
+        - name: Install and cache Python dependencies
           commands:
             - cache restore pipenv-$SEMAPHORE_GIT_BRANCH-$(checksum Pipfile.lock),pipenv-$SEMAPHORE_GIT_BRANCH,pipenv-master
             - pipenv install --dev --deploy
             - cache store pipenv-$SEMAPHORE_GIT_BRANCH-$(checksum Pipfile.lock) .venv
+        - name: Install and cache Javascript dependencies
+          commands:
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm install
+            - cache store client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
   - name: Quality checks
     task:
       env_vars:
+        - name: NODE_ENV
+          value: test
         - name: PIPENV_VENV_IN_PROJECT
           value: "true"
       prologue:
         commands:
           - sudo pip install pipenv
           - checkout
+          - nvm use
+          - node --version
+          - npm --version
           - cache restore pipenv-$SEMAPHORE_GIT_BRANCH-$(checksum Pipfile.lock),pipenv-$SEMAPHORE_GIT_BRANCH,pipenv-master
+          - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
       jobs:
-      - name: Tests
+        - name: Javascript Lint
+          commands:
+            - npm run lint
+        - name: Python Lint
+          commands:
+            - pipenv run lint
+        - name: Security checks
+          commands:
+            - pipenv run security
+  - name: Tests
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+        - name: PIPENV_VENV_IN_PROJECT
+          value: "true"
+      prologue:
         commands:
-          - pipenv run test
-      - name: Lint
-        commands:
-          - pipenv run lint
-      - name: Security check
-        commands:
-          - pipenv run security
+          - sudo pip install pipenv
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+          - cache restore pipenv-$SEMAPHORE_GIT_BRANCH-$(checksum Pipfile.lock),pipenv-$SEMAPHORE_GIT_BRANCH,pipenv-master
+          - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+      jobs:
+        - name: Python Tests
+          commands:
+            - pipenv run test
+        - name: Javascript Tests
+          commands:
+            - npm run test

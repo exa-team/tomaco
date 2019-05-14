@@ -1,8 +1,3 @@
-class TestStatic:
-    def test_css_file_should_return_valid(self, app):
-        assert app.get("/static/css/main.css").status == "200 OK"
-
-
 class TestIndex:
     def test_index_should_return_valid(self, app):
         assert app.get("/").status == "200 OK"

@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Javascript dependencies
+node_modules
+
 # VS Code
 .vscode
