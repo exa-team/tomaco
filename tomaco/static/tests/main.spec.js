@@ -10,87 +10,98 @@ describe("Timer", () => {
 
   beforeEach(() => {
     $fakeButton = {
-      on: jest.fn(),
-      text: jest.fn()
+      addEventListener: jest.fn(),
+      innerHTML: ""
     };
     $fakeDisplay = {
-      text: jest.fn()
+      innerHTML: ""
     };
 
-    timer = new Timer($fakeDisplay, $fakeButton);
+    timer = Timer.build($fakeDisplay, $fakeButton);
 
     clearIntervalSpy = jest.spyOn(global, "clearInterval");
     setIntervalSpy = jest.spyOn(global, "setInterval");
     timerIntervalSpy = jest.spyOn(timer.timerInterval, "bind");
-
-    timer.init();
   });
 
-  describe("init", () => {
+  describe("build", () => {
     it("should reset the timer", () => {
       expect(timer.isRunning).toBe(false);
-      expect($fakeButton.text).toHaveBeenCalledWith("Start!");
-      expect($fakeDisplay.text).toHaveBeenCalledWith("25:00");
+      expect($fakeButton.innerHTML).toEqual("Start!");
+      expect($fakeDisplay.innerHTML).toEqual("25:00");
     });
 
     it("should bind a click event to $button element", () => {
-      expect($fakeButton.on).toHaveBeenCalled();
+      expect($fakeButton.addEventListener).toHaveBeenCalled();
     });
   });
 
-  describe("updateDisplay", () => {
+  describe("updateUI", () => {
     it("should print seconds in the minutes format", () => {
-      timer.updateDisplay(1500);
-      expect($fakeDisplay.text).toHaveBeenCalledWith("25:00");
+      timer.seconds = 1500;
+      timer.updateUI();
+      expect($fakeDisplay.innerHTML).toEqual("25:00");
     });
 
     it("should respect the limit of 60 for seconds", () => {
-      timer.updateDisplay(1499);
-      expect($fakeDisplay.text).toHaveBeenCalledWith("24:59");
+      timer.seconds = 1499;
+      timer.updateUI();
+      expect($fakeDisplay.innerHTML).toEqual("24:59");
     });
 
     it("should pad a zero to the left of the minute so we will always have two numbers", () => {
-      timer.updateDisplay(60);
-      expect($fakeDisplay.text).toHaveBeenCalledWith("01:00");
+      timer.seconds = 60;
+      timer.updateUI();
+      expect($fakeDisplay.innerHTML).toEqual("01:00");
     });
 
     it("should pad a zero to the left of the second so we will always have two numbers", () => {
-      timer.updateDisplay(5);
-      expect($fakeDisplay.text).toHaveBeenCalledWith("00:05");
+      timer.seconds = 5;
+      timer.updateUI();
+      expect($fakeDisplay.innerHTML).toEqual("00:05");
+    });
+
+    it("should print button with start text", () => {
+      timer.isRunning = false;
+      timer.updateUI();
+
+      expect($fakeButton.innerHTML).toEqual("Start!");
+    });
+
+    it("should print button with stop text", () => {
+      timer.isRunning = true;
+      timer.updateUI();
+
+      expect($fakeButton.innerHTML).toEqual("Stop!");
     });
   });
 
   describe("resetTimer", () => {
     it("should clear the interval engine", () => {
-      timer.resetTimer();
+      timer.stopTimer();
 
       expect(clearIntervalSpy).toHaveBeenCalled();
     });
 
     it("should set timer as it's initial state", () => {
-      timer.resetTimer();
+      timer.stopTimer();
 
       expect(timer.isRunning).toBe(false);
-      expect($fakeButton.text).toHaveBeenCalledWith("Start!");
-    });
-
-    it("should update the display with the initial amount of seconds", () => {
-      timer.resetTimer();
-      expect($fakeDisplay.text).toHaveBeenCalledWith("25:00");
+      expect(timer.seconds).toEqual(1500);
     });
   });
 
   describe("toggleTimer", () => {
     it("should set the state as running mode, if it is not running already", () => {
-      timer.resetTimer(); // Make sure it's not running
+      timer.stopTimer(); // Make sure it's not running
       timer.toggleTimer();
 
       expect(timer.isRunning).toBe(true);
-      expect($fakeButton.text).toHaveBeenCalledWith("Stop!");
+      expect($fakeButton.innerHTML).toEqual("Stop!");
     });
 
     it("should triggers the interval engine", () => {
-      timer.resetTimer(); // Make sure it's not running
+      timer.stopTimer(); // Make sure it's not running
       timer.toggleTimer();
 
       expect(timer.timer).toBeTruthy();
@@ -112,7 +123,7 @@ describe("Timer", () => {
       timer.timerInterval();
 
       expect(timer.seconds).toEqual(1499);
-      expect($fakeDisplay.text).toHaveBeenCalledWith("24:59");
+      expect($fakeDisplay.innerHTML).toEqual("24:59");
     });
 
     it("should reset the timer when it reaches zero", () => {
