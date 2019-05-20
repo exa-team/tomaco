@@ -1,3 +1,5 @@
+import secondsToMinutesAndSeconds from "./utils";
+
 const ONE_SECOND = 1 * 1000;
 const STARTING_FROM = 25 * 60;
 const START_TEXT = "Start!";
@@ -11,53 +13,54 @@ export default class Timer {
     this.timer = null;
     this.startingFrom = startingFrom;
     this.seconds = startingFrom;
+
+    this.$button.addEventListener("click", this.toggleTimer.bind(this));
   }
 
-  init() {
-    this.resetTimer();
-    this.$button.on("click", this.toggleTimer.bind(this));
+  updateUI() {
+    this.$button.innerHTML = this.isRunning ? STOP_TEXT : START_TEXT;
+    this.$display.innerHTML = secondsToMinutesAndSeconds(this.seconds);
   }
 
-  updateDisplay(seconds) {
-    const formattedMinutes = Timer.pad(Math.floor(seconds / 60));
-    const formattedSeconds = Timer.pad(seconds % 60);
-    this.$display.text(`${formattedMinutes}:${formattedSeconds}`);
+  startTimer() {
+    this.timer = window.setInterval(this.timerInterval.bind(this), ONE_SECOND);
+    this.isRunning = true;
   }
 
-  resetTimer() {
+  stopTimer() {
     clearInterval(this.timer);
-
+    this.seconds = STARTING_FROM;
     this.isRunning = false;
-    this.$button.text(START_TEXT);
-    this.updateDisplay(this.startingFrom);
   }
 
   toggleTimer() {
     if (this.isRunning) {
-      this.resetTimer();
-      return;
+      this.stopTimer();
+    } else {
+      this.startTimer();
     }
 
-    this.isRunning = true;
-    this.$button.text(STOP_TEXT);
-    this.timer = window.setInterval(this.timerInterval.bind(this), ONE_SECOND);
+    this.updateUI();
   }
 
   timerInterval() {
     if (this.seconds <= 0) {
-      this.resetTimer();
+      this.stopTimer();
       M.toast({
         html: "Pomodoro done! :)"
       });
-
-      return;
+    } else {
+      this.seconds -= 1;
     }
 
-    this.seconds -= 1;
-    this.updateDisplay(this.seconds);
+    this.updateUI();
   }
 
-  static pad(numberToPad) {
-    return numberToPad.toString().length < 2 ? `0${numberToPad}` : numberToPad;
+  static build($display, $button) {
+    const timer = new Timer($display, $button);
+    timer.stopTimer();
+    timer.updateUI();
+
+    return timer;
   }
 }
