@@ -11,6 +11,10 @@ describe("Timer", () => {
   beforeEach(() => {
     $fakeButton = {
       addEventListener: jest.fn(),
+      classList: {
+        add: jest.fn(),
+        remove: jest.fn()
+      },
       innerHTML: ""
     };
     $fakeDisplay = {
@@ -22,6 +26,10 @@ describe("Timer", () => {
     clearIntervalSpy = jest.spyOn(global, "clearInterval");
     setIntervalSpy = jest.spyOn(global, "setInterval");
     timerIntervalSpy = jest.spyOn(timer.timerInterval, "bind");
+
+    global.M = {
+      toast: jest.fn()
+    };
   });
 
   describe("build", () => {
@@ -74,6 +82,22 @@ describe("Timer", () => {
 
       expect($fakeButton.innerHTML).toEqual("Stop!");
     });
+
+    it("should be a focus button when in focus mode", () => {
+      timer.setFocusTime();
+      timer.updateUI();
+
+      expect($fakeButton.classList.add).toHaveBeenCalledWith("red");
+      expect($fakeButton.classList.remove).toHaveBeenCalledWith("green");
+    });
+
+    it("should be a rest button when it is not focus mode", () => {
+      timer.setBreakTime();
+      timer.updateUI();
+
+      expect($fakeButton.classList.add).toHaveBeenCalledWith("green");
+      expect($fakeButton.classList.remove).toHaveBeenCalledWith("red");
+    });
   });
 
   describe("resetTimer", () => {
@@ -97,6 +121,7 @@ describe("Timer", () => {
       timer.toggleTimer();
 
       expect(timer.isRunning).toBe(true);
+      expect(timer.focusMode).toBe(true);
       expect($fakeButton.innerHTML).toEqual("Stop!");
     });
 
@@ -127,10 +152,27 @@ describe("Timer", () => {
     });
 
     it("should reset the timer when it reaches zero", () => {
-      timer.seconds = 1;
+      timer.seconds = 0;
       timer.timerInterval();
 
       expect(timer.isRunning).toBe(false);
+    });
+
+    it("should set the rest mode when it reaches zero", () => {
+      timer.seconds = 0;
+      timer.timerInterval();
+
+      expect(timer.focusMode).toBe(false);
+      expect(timer.seconds).toEqual(300);
+    });
+
+    it("should show a toast when timer reaches zero", () => {
+      timer.seconds = 0;
+      timer.timerInterval();
+
+      expect(M.toast).toHaveBeenCalledWith({
+        html: "Pomodoro done! :)"
+      });
     });
   });
 });
