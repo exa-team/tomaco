@@ -106,5 +106,6 @@ venv.bak/
 # Javascript dependencies
 node_modules
 
-# VS Code
+# Editors
 .vscode
+.vim

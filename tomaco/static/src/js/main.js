@@ -1,23 +1,32 @@
 import secondsToMinutesAndSeconds from "./utils";
 
 const ONE_SECOND = 1 * 1000;
-const STARTING_FROM = 25 * 60;
+const FOCUS_STARTING_FROM = 25 * 60;
+const BREAK_STARTING_FROM = 5 * 60;
 const START_TEXT = "Start!";
 const STOP_TEXT = "Stop!";
 
 export default class Timer {
-  constructor($display, $button, startingFrom = STARTING_FROM) {
+  constructor($display, $button) {
     this.$display = $display;
     this.$button = $button;
+    this.seconds = FOCUS_STARTING_FROM;
+    this.focusMode = true;
     this.isRunning = false;
     this.timer = null;
-    this.startingFrom = startingFrom;
-    this.seconds = startingFrom;
 
     this.$button.addEventListener("click", this.toggleTimer.bind(this));
   }
 
   updateUI() {
+    if (this.focusMode) {
+      this.$button.classList.add("red");
+      this.$button.classList.remove("green");
+    } else {
+      this.$button.classList.add("green");
+      this.$button.classList.remove("red");
+    }
+
     this.$button.innerHTML = this.isRunning ? STOP_TEXT : START_TEXT;
     this.$display.innerHTML = secondsToMinutesAndSeconds(this.seconds);
   }
@@ -29,12 +38,13 @@ export default class Timer {
 
   stopTimer() {
     clearInterval(this.timer);
-    this.seconds = STARTING_FROM;
+    this.seconds = this.focusMode ? FOCUS_STARTING_FROM : BREAK_STARTING_FROM;
     this.isRunning = false;
   }
 
   toggleTimer() {
     if (this.isRunning) {
+      this.setFocusTime();
       this.stopTimer();
     } else {
       this.startTimer();
@@ -43,8 +53,25 @@ export default class Timer {
     this.updateUI();
   }
 
+  setFocusTime() {
+    this.focusMode = true;
+  }
+
+  setBreakTime() {
+    this.focusMode = false;
+  }
+
+  toggleFocusTime() {
+    if (this.focusMode) {
+      this.setBreakTime();
+    } else {
+      this.setFocusTime();
+    }
+  }
+
   timerInterval() {
     if (this.seconds <= 0) {
+      this.toggleFocusTime();
       this.stopTimer();
       M.toast({
         html: "Pomodoro done! :)"
