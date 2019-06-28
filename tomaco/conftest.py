@@ -1,7 +1,7 @@
 import pytest
 from webtest import TestApp
 
-from tomaco.app import app as application
+from tomaco.app import application
 
 
 @pytest.fixture

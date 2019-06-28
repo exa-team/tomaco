@@ -1,6 +1,3 @@
-deploy:
-	git push heroku master
-
 lint:
 	@echo "Javascript lint..."
 	@npm run lint
@@ -12,10 +9,10 @@ lint:
 run: run-javascript run-python
 
 run-javascript:
-	npm run run
+	brunch watch
 
 run-python:
-	pipenv run run
+	pipenv run python -m bottle --debug --reload tomaco.app
 
 setup:
 	@echo "Installing Python dependencies..."

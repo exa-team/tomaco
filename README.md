@@ -1,7 +1,5 @@
 # Tomaco
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 Like "Tomacco", but without a "c" for copyright concerns.
 
 Tomaco is a Pomodoro app, to leverage your productivity and help you getting things done.
