@@ -2,6 +2,7 @@ import Timer from "../src/js/main";
 
 describe("Timer", () => {
   let $fakeButton;
+  let $fakeCounter;
   let $fakeDisplay;
   let timer;
   let clearIntervalSpy;
@@ -17,11 +18,14 @@ describe("Timer", () => {
       },
       innerHTML: ""
     };
+    $fakeCounter = {
+      innerHTML: ""
+    };
     $fakeDisplay = {
       innerHTML: ""
     };
 
-    timer = Timer.build($fakeDisplay, $fakeButton);
+    timer = Timer.build($fakeDisplay, $fakeButton, $fakeCounter);
 
     clearIntervalSpy = jest.spyOn(global, "clearInterval");
     setIntervalSpy = jest.spyOn(global, "setInterval");
@@ -36,6 +40,7 @@ describe("Timer", () => {
     it("should reset the timer", () => {
       expect(timer.isRunning).toBe(false);
       expect($fakeButton.innerHTML).toEqual("Start!");
+      expect($fakeCounter.innerHTML).toEqual("");
       expect($fakeDisplay.innerHTML).toEqual("25:00");
     });
 
@@ -97,6 +102,15 @@ describe("Timer", () => {
 
       expect($fakeButton.classList.add).toHaveBeenCalledWith("green");
       expect($fakeButton.classList.remove).toHaveBeenCalledWith("red");
+    });
+
+    it("should add a visual element to inform the user that a session has been completed", () => {
+      timer.setPomodoroAsDone();
+      timer.updateUI();
+
+      expect($fakeCounter.innerHTML).toContain(
+        '<span class="timer__finished_item"></span>'
+      );
     });
   });
 
@@ -173,6 +187,13 @@ describe("Timer", () => {
       expect(M.toast).toHaveBeenCalledWith({
         html: "Pomodoro done! :)"
       });
+    });
+
+    it("should increase the finished counter", () => {
+      timer.seconds = 0;
+      timer.timerInterval();
+
+      expect(timer.finishedPomodoros).toEqual(1);
     });
   });
 });

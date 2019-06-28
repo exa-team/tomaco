@@ -33,6 +33,8 @@
         >
           Start!
         </button>
+
+        <div class="timer__finished_counter" id="timer__finished_counter"></div>
       </div>
     </div>
 
@@ -42,8 +44,9 @@
       const Timer = require("tomaco/static/src/js/main.js").default;
       const $display = document.getElementById("timer__display");
       const $button = document.getElementById("timer__button");
+      const $finishedCounter = document.getElementById("timer__finished_counter");
 
-      Timer.build($display, $button);
+      Timer.build($display, $button, $finishedCounter);
     </script>
   </body>
 </html>
