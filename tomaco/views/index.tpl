@@ -33,7 +33,13 @@
         >
           Start!
         </button>
-
+        <button
+          class="waves-effect waves-light btn-large blue lighten-2 pause__button"
+          id="pause__button"
+          disabled
+        >
+          Pause!
+        </button>
         <div class="timer__finished_counter" id="timer__finished_counter"></div>
       </div>
     </div>
@@ -45,8 +51,9 @@
       const $display = document.getElementById("timer__display");
       const $button = document.getElementById("timer__button");
       const $finishedCounter = document.getElementById("timer__finished_counter");
+      const $pauseButton = document.getElementById("pause__button");
 
-      Timer.build($display, $button, $finishedCounter);
+      Timer.build($display, $button, $finishedCounter, $pauseButton);
     </script>
   </body>
 </html>

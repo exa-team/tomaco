@@ -3,6 +3,7 @@ import Timer from "../src/js/main";
 describe("Timer", () => {
   let $fakeButton;
   let $fakeCounter;
+  let $fakePauseButton;
   let $fakeDisplay;
   let timer;
   let clearIntervalSpy;
@@ -18,14 +19,23 @@ describe("Timer", () => {
       },
       innerHTML: ""
     };
-    $fakeCounter = {
+
+    $fakePauseButton = {
+      addEventListener: jest.fn(),
+      classList: {
+        add: jest.fn(),
+        remove: jest.fn()
+      },
       innerHTML: ""
     };
     $fakeDisplay = {
       innerHTML: ""
     };
+    $fakeCounter = {
+      innerHTML: ""
+    };
 
-    timer = Timer.build($fakeDisplay, $fakeButton, $fakeCounter);
+    timer = Timer.build($fakeDisplay, $fakeButton, $fakeCounter, $fakePauseButton);
 
     clearIntervalSpy = jest.spyOn(global, "clearInterval");
     setIntervalSpy = jest.spyOn(global, "setInterval");
@@ -112,6 +122,37 @@ describe("Timer", () => {
         '<span class="timer__finished_item"></span>'
       );
     });
+  });
+
+  describe("pauseTimer", () => {
+    it("should set the state as paused", () => {
+      timer.startTimer();
+
+      timer.togglePauseTimer();
+      expect(clearIntervalSpy).toHaveBeenCalled();
+      expect(timer.isPaused).toBe(true);
+    });
+
+    it("should set the state as unpaused", () => {
+      timer.startTimer();
+      timer.togglePauseTimer();
+
+      timer.togglePauseTimer();
+      expect(setIntervalSpy).toHaveBeenCalled();
+      expect(timer.isPaused).toBe(false);
+    });
+
+    it("should not set the state as paused if it is not running", () => {
+      timer.togglePauseTimer();
+      expect(timer.isPaused).toBe(false);
+    });
+
+    it("should set the state as paused only if it is running", () => {
+      timer.startTimer();
+      timer.togglePauseTimer();
+      expect(timer.isPaused).toBe(true);
+    });
+
   });
 
   describe("resetTimer", () => {
