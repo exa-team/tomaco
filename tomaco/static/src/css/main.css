@@ -7,3 +7,15 @@
   display: block;
   font-size: 4rem;
 }
+
+.timer__finished_counter {
+  padding: 1rem;
+}
+
+.timer__finished_item {
+  background-color: green;
+  border-radius: 100%;
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}

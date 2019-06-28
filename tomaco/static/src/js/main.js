@@ -7,13 +7,16 @@ const START_TEXT = "Start!";
 const STOP_TEXT = "Stop!";
 
 export default class Timer {
-  constructor($display, $button) {
+  constructor($display, $button, $finishedCounter) {
     this.$display = $display;
     this.$button = $button;
+    this.$finishedCounter = $finishedCounter;
+
     this.seconds = FOCUS_STARTING_FROM;
     this.focusMode = true;
     this.isRunning = false;
     this.timer = null;
+    this.finishedPomodoros = 0;
 
     this.$button.addEventListener("click", this.toggleTimer.bind(this));
   }
@@ -29,6 +32,13 @@ export default class Timer {
 
     this.$button.innerHTML = this.isRunning ? STOP_TEXT : START_TEXT;
     this.$display.innerHTML = secondsToMinutesAndSeconds(this.seconds);
+    this.$finishedCounter.innerHTML = Array.from({
+      length: this.finishedPomodoros
+    }).reduce(
+      accumulator =>
+        `${accumulator} <span class="timer__finished_item"></span>`,
+      ""
+    );
   }
 
   startTimer() {
@@ -61,6 +71,16 @@ export default class Timer {
     this.focusMode = false;
   }
 
+  setPomodoroAsDone() {
+    this.toggleFocusTime();
+    this.stopTimer();
+    this.finishedPomodoros += 1;
+
+    M.toast({
+      html: "Pomodoro done! :)"
+    });
+  }
+
   toggleFocusTime() {
     if (this.focusMode) {
       this.setBreakTime();
@@ -71,11 +91,7 @@ export default class Timer {
 
   timerInterval() {
     if (this.seconds <= 0) {
-      this.toggleFocusTime();
-      this.stopTimer();
-      M.toast({
-        html: "Pomodoro done! :)"
-      });
+      this.setPomodoroAsDone();
     } else {
       this.seconds -= 1;
     }
@@ -83,8 +99,8 @@ export default class Timer {
     this.updateUI();
   }
 
-  static build($display, $button) {
-    const timer = new Timer($display, $button);
+  static build($display, $button, $finishedCounter) {
+    const timer = new Timer($display, $button, $finishedCounter);
     timer.stopTimer();
     timer.updateUI();
 
