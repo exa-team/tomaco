@@ -49,6 +49,8 @@ export default class Timer {
       this.$pauseButton.innerText = PAUSE_TEXT;
     }
 
+    this.setTimerTitle();
+
     // updatime time
     this.$display.innerHTML = secondsToMinutesAndSeconds(this.seconds);
     this.$finishedCounter.innerHTML = Array.from({
@@ -58,6 +60,21 @@ export default class Timer {
         `${accumulator} <span class="timer__finished_item"></span>`,
       ""
     );
+  }
+
+  setTimerTitle() {
+    if (!document.originalTitle) {
+      // Why not store the original title in this object? Because document must
+      // be the responsable for its own title
+      document.originalTitle = document.title;
+    }
+
+    if (this.isRunning) {
+      const seconds = secondsToMinutesAndSeconds(this.seconds);
+      document.title = `${seconds} - ${document.originalTitle}`;
+    } else {
+      document.title = document.originalTitle;
+    }
   }
 
   startTimer() {
