@@ -7,4 +7,16 @@ const secondsToMinutesAndSeconds = seconds => {
   return `${formattedMinutes}:${formattedSeconds}`;
 };
 
-export default secondsToMinutesAndSeconds;
+function notify(message) {
+  if (window.Notification && Notification.permission === "granted") {
+    const notification = new Notification(message);
+
+    // open Tomaco's page on click in notification popup
+    notification.onclick = event => {
+      event.preventDefault();
+      window.focus();
+    };
+  }
+}
+
+export { notify, secondsToMinutesAndSeconds };

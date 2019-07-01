@@ -1,4 +1,4 @@
-import secondsToMinutesAndSeconds from "./utils";
+import { notify, secondsToMinutesAndSeconds } from "./utils";
 
 const ONE_SECOND = 1 * 1000;
 const FOCUS_STARTING_FROM = 25 * 60;
@@ -112,6 +112,7 @@ export default class Timer {
     this.stopTimer();
     this.finishedPomodoros += 1;
 
+    notify("Pomodoro done! Take a break!");
     M.toast({
       html: "Pomodoro done! :)"
     });
