@@ -35,7 +35,12 @@ describe("Timer", () => {
       innerHTML: ""
     };
 
-    timer = Timer.build($fakeDisplay, $fakeButton, $fakeCounter, $fakePauseButton);
+    timer = Timer.build(
+      $fakeDisplay,
+      $fakeButton,
+      $fakeCounter,
+      $fakePauseButton
+    );
 
     clearIntervalSpy = jest.spyOn(global, "clearInterval");
     setIntervalSpy = jest.spyOn(global, "setInterval");
@@ -152,7 +157,6 @@ describe("Timer", () => {
       timer.togglePauseTimer();
       expect(timer.isPaused).toBe(true);
     });
-
   });
 
   describe("resetTimer", () => {
@@ -235,6 +239,14 @@ describe("Timer", () => {
       timer.timerInterval();
 
       expect(timer.finishedPomodoros).toEqual(1);
+    });
+
+    it("should not increase the finished counter if it was a break session", () => {
+      timer.seconds = 0;
+      timer.setBreakTime();
+      timer.timerInterval();
+
+      expect(timer.finishedPomodoros).toEqual(0);
     });
   });
 });
