@@ -108,9 +108,12 @@ export default class Timer {
   }
 
   setPomodoroAsDone() {
+    if (this.focusMode) {
+      this.finishedPomodoros += 1;
+    }
+
     this.toggleFocusTime();
     this.stopTimer();
-    this.finishedPomodoros += 1;
 
     notify("Pomodoro done! Take a break!");
     M.toast({
