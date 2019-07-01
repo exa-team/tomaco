@@ -30,7 +30,7 @@
     "prettier": "^1.17.1"
   },
   "scripts": {
-    "build": "brunch build",
+    "build": "brunch build -p",
     "lint": "eslint tomaco/static/src",
     "run": "brunch watch",
     "test": "jest"
@@ -39,6 +39,9 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "brunch": "^2.10.17",
-    "babel-brunch": "^7.0.1"
+    "babel-brunch": "^7.0.1",
+    "clean-css-brunch": "^2.10.0",
+    "terser": "^4.0.2",
+    "terser-brunch": "^3.0.0"
   }
 }

@@ -11,7 +11,25 @@ module.exports = {
     public: "tomaco/static/build",
     watched: ["tomaco/static/src"]
   },
+  npm: {
+    compilers: ["babel-brunch"]
+  },
   plugins: {
-    npm: ["babel-brunch"]
+    cleancss: {
+      keepSpecialComments: 0,
+      removeEmpty: true
+    },
+    terser: {
+      mangle: false,
+      compress: {
+        global_defs: {
+          "@console.log": "alert"
+        },
+      },
+      output: {
+        beautify: false,
+        preamble: "/* minified */"
+      }
+    }
   }
 };
