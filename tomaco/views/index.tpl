@@ -54,6 +54,9 @@
       const $pauseButton = document.getElementById("pause__button");
 
       Timer.build($display, $button, $finishedCounter, $pauseButton);
+
+      // Request permission to send notifications
+      Notification.requestPermission();
     </script>
   </body>
 </html>
