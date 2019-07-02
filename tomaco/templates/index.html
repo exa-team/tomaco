@@ -14,13 +14,24 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-    <link rel="stylesheet" href="/static/build/main.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='build/main.css') }}"
+    />
   </head>
 
   <body>
     <nav>
       <div class="nav-wrapper">
         <a href="#" class="brand-logo center">Tomaco</a>
+
+        <ul id="nav-mobile" class="right">
+          {% if username %}
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
+        </ul>
       </div>
     </nav>
 
@@ -45,12 +56,14 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="/static/build/main.js"></script>
+    <script src="{{ url_for('static', filename='build/main.js') }}"></script>
     <script>
       const Timer = require("tomaco/static/src/js/main.js").default;
       const $display = document.getElementById("timer__display");
       const $button = document.getElementById("timer__button");
-      const $finishedCounter = document.getElementById("timer__finished_counter");
+      const $finishedCounter = document.getElementById(
+        "timer__finished_counter"
+      );
       const $pauseButton = document.getElementById("pause__button");
 
       Timer.build($display, $button, $finishedCounter, $pauseButton);

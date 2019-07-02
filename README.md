@@ -29,7 +29,20 @@ A better option is to run than via the same Makefile task, but in parallel:
 $ make -j2 run
 ```
 
-It's going to use Bottle's development server, serving the service through `localhost:8080`, and Brunch building processes to deal with the assets.
+It's going to use Flask's development server, serving the service through `localhost:8080`, and Brunch building processes to deal with the assets.
+
+### Authenticating via Github
+
+In order to use the authentication engine (which relies on Github underneath the hood), you might need some extra steps to run your application:
+
+- [Create a Github app](https://developer.github.com/apps/building-github-apps/creating-a-github-app/)
+- For development purposes, you can set the `Authorization callback URL` as `http://localhost:8080/login/complete`
+- Copy the `client id` and `client secret` from Github
+- Pass them to the application via environment var:
+
+```
+$ GITHUB_CLIENT_ID=<client_id> GITHUB_CLIENT_SECRET=<client_secret> make -j2 run
+```
 
 ## Testing
 
