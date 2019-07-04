@@ -1,12 +1,14 @@
+import {
+  BREAK_STARTING_FROM,
+  FOCUS_STARTING_FROM,
+  MESSAGES,
+  ONE_SECOND,
+  PAUSE_TEXT,
+  RESUME_TEXT,
+  START_TEXT,
+  STOP_TEXT
+} from "./constants";
 import { notify, secondsToMinutesAndSeconds } from "./utils";
-
-const ONE_SECOND = 1 * 1000;
-const FOCUS_STARTING_FROM = 25 * 60;
-const BREAK_STARTING_FROM = 5 * 60;
-const START_TEXT = "Start!";
-const STOP_TEXT = "Stop!";
-const PAUSE_TEXT = "Pause!";
-const RESUME_TEXT = "Resume!";
 
 export default class Timer {
   constructor($display, $button, $finishedCounter, $pauseButton) {
@@ -125,17 +127,20 @@ export default class Timer {
   }
 
   setPomodoroAsDone() {
+    let message;
+
     if (this.focusMode) {
       this.finishedPomodoros += 1;
+      message = MESSAGES.FOCUS_MODE_DONE;
+    } else {
+      message = MESSAGES.REST_MODE_DONE;
     }
 
     this.toggleFocusTime();
     this.stopTimer();
 
-    notify("Pomodoro done! Take a break!");
-    M.toast({
-      html: "Pomodoro done! :)"
-    });
+    notify(message);
+    M.toast({ html: message });
   }
 
   toggleFocusTime() {

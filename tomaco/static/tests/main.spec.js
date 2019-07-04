@@ -1,4 +1,6 @@
 import Timer from "../src/js/main";
+import * as Utils from "../src/js/utils";
+import { MESSAGES, START_TEXT, STOP_TEXT } from "../src/js/constants";
 
 describe("Timer", () => {
   let $fakeButton;
@@ -54,7 +56,7 @@ describe("Timer", () => {
   describe("build", () => {
     it("should reset the timer", () => {
       expect(timer.isRunning).toBe(false);
-      expect($fakeButton.innerHTML).toEqual("Start!");
+      expect($fakeButton.innerHTML).toEqual(START_TEXT);
       expect($fakeCounter.innerHTML).toEqual("");
       expect($fakeDisplay.innerHTML).toEqual("25:00");
     });
@@ -93,14 +95,14 @@ describe("Timer", () => {
       timer.isRunning = false;
       timer.updateUI();
 
-      expect($fakeButton.innerHTML).toEqual("Start!");
+      expect($fakeButton.innerHTML).toEqual(START_TEXT);
     });
 
     it("should print button with stop text", () => {
       timer.isRunning = true;
       timer.updateUI();
 
-      expect($fakeButton.innerHTML).toEqual("Stop!");
+      expect($fakeButton.innerHTML).toEqual(STOP_TEXT);
     });
 
     it("should be a focus button when in focus mode", () => {
@@ -181,7 +183,7 @@ describe("Timer", () => {
 
       expect(timer.isRunning).toBe(true);
       expect(timer.focusMode).toBe(true);
-      expect($fakeButton.innerHTML).toEqual("Stop!");
+      expect($fakeButton.innerHTML).toEqual(STOP_TEXT);
     });
 
     it("should triggers the interval engine", () => {
@@ -230,8 +232,16 @@ describe("Timer", () => {
       timer.timerInterval();
 
       expect(M.toast).toHaveBeenCalledWith({
-        html: "Pomodoro done! :)"
+        html: MESSAGES.FOCUS_MODE_DONE
       });
+    });
+
+    it("should notify the user when timer reaches zero", () => {
+      jest.spyOn(Utils, "notify");
+      timer.seconds = 0;
+      timer.timerInterval();
+
+      expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.FOCUS_MODE_DONE);
     });
 
     it("should increase the finished counter", () => {
@@ -247,6 +257,25 @@ describe("Timer", () => {
       timer.timerInterval();
 
       expect(timer.finishedPomodoros).toEqual(0);
+    });
+
+    it("should show a 'back to focus' toast when timer reaches zero", () => {
+      timer.seconds = 0;
+      timer.setBreakTime();
+      timer.timerInterval();
+
+      expect(M.toast).toHaveBeenCalledWith({
+        html: MESSAGES.REST_MODE_DONE
+      });
+    });
+
+    it("should notify the user to get back to focus mode when timer reaches zero", () => {
+      jest.spyOn(Utils, "notify");
+      timer.seconds = 0;
+      timer.setBreakTime();
+      timer.timerInterval();
+
+      expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.REST_MODE_DONE);
     });
   });
 });
