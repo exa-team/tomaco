@@ -15,7 +15,7 @@ run-javascript:
 	npm run run
 
 run-python:
-	pipenv run run
+	FLASK_APP=tomaco.wsgi:application FLASK_DEBUG=1 pipenv run run
 
 setup:
 	@echo "Installing Python dependencies..."

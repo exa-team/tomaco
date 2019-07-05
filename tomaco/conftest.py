@@ -1,9 +1,8 @@
 import pytest
-from webtest import TestApp
 
-from tomaco.app import app as application
+from tomaco import create_app
 
 
 @pytest.fixture
 def app():
-    return TestApp(app=application)
+    return create_app()

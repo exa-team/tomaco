@@ -7,14 +7,16 @@ verify_ssl = true
 pre-commit = "*"
 black = "*"
 pytest = "*"
-webtest = "*"
 flake8 = "*"
 bandit = "*"
+pytest-flask = "*"
+ipdb = "*"
+httmock = "*"
 
 [packages]
-bottle = "*"
 gunicorn = "*"
 bandit = "==1.5.0"
+flask = "*"
 
 [requires]
 python_version = "3.7"
@@ -25,5 +27,5 @@ allow_prereleases = true
 [scripts]
 test = "pytest ."
 lint = "flake8 ."
-run = "python -m bottle tomaco.app"
+run = "flask run --host=0.0.0.0 --port=8080"
 security = "bandit -r ."
