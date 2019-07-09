@@ -1,75 +1,33 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Tomaco - Your friendly Pomodoro tracker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafafa" />
+{% extends "base.html" %} {% block content %}
+<div class="timer">
+  <span class="timer__display" id="timer__display">25:00</span>
+  <button
+    class="waves-effect waves-light btn-large red lighten-2 timer__button"
+    id="timer__button"
+  >
+    Start!
+  </button>
+  <button
+    class="waves-effect waves-light btn-large blue lighten-2 pause__button"
+    id="pause__button"
+    disabled
+  >
+    Pause!
+  </button>
+  <div class="timer__finished_counter" id="timer__finished_counter"></div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="{{ url_for('static', filename='build/main.js') }}"></script>
+<script>
+  const Timer = require("tomaco/static/src/js/main.js").default;
+  const $display = document.getElementById("timer__display");
+  const $button = document.getElementById("timer__button");
+  const $finishedCounter = document.getElementById("timer__finished_counter");
+  const $pauseButton = document.getElementById("pause__button");
 
-    <link
-      rel="styleshet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='build/main.css') }}"
-    />
-  </head>
+  Timer.build($display, $button, $finishedCounter, $pauseButton);
 
-  <body>
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo center">Tomaco</a>
-
-        <ul id="nav-mobile" class="right">
-          {% if username %}
-          <li><a href="{{ url_for('logout') }}">Logout</a></li>
-          {% else %}
-          <li><a href="{{ url_for('login') }}">Login</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container">
-      <div class="timer">
-        <span class="timer__display" id="timer__display">25:00</span>
-        <button
-          class="waves-effect waves-light btn-large red lighten-2 timer__button"
-          id="timer__button"
-        >
-          Start!
-        </button>
-        <button
-          class="waves-effect waves-light btn-large blue lighten-2 pause__button"
-          id="pause__button"
-          disabled
-        >
-          Pause!
-        </button>
-        <div class="timer__finished_counter" id="timer__finished_counter"></div>
-      </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="{{ url_for('static', filename='build/main.js') }}"></script>
-    <script>
-      const Timer = require("tomaco/static/src/js/main.js").default;
-      const $display = document.getElementById("timer__display");
-      const $button = document.getElementById("timer__button");
-      const $finishedCounter = document.getElementById(
-        "timer__finished_counter"
-      );
-      const $pauseButton = document.getElementById("pause__button");
-
-      Timer.build($display, $button, $finishedCounter, $pauseButton);
-
-      // Request permission to send notifications
-      Notification.requestPermission();
-    </script>
-  </body>
-</html>
+  // Request permission to send notifications
+  Notification.requestPermission();
+</script>
+{% endblock %}

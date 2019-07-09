@@ -2,10 +2,9 @@ import uuid
 from unittest.mock import patch
 
 from flask import url_for
-from tomaco.views import auth
 
-INDEX_URL = "http://localhost/"
-USER_EMAIL = "should-be-user-email"
+from tomaco.conftest import INDEX_URL, LOGIN_URL, USER_EMAIL
+from tomaco.views import auth
 
 ACCESS_TOKEN_PAYLOAD = {"access_token": ["should-be-access-token"]}
 USER_DETAILS_PAYLOAD = {"email": USER_EMAIL}
@@ -19,26 +18,41 @@ class BaseTest:
 class TestIndex(BaseTest):
     url_name = "index"
 
-    def test_should_access_the_index_page(self, client):
-        result = self.get(client)
+    def test_should_access_the_index_page(self, auth_client):
+        result = self.get(auth_client)
 
         assert result.status_code == 200
         assert b"Tomaco" in result.data
 
-    def test_should_show_a_login_entry_when_anonymous(self, client):
-        result = self.get(client)
-        assert b"/login" in result.data
-
-    def test_should_show_a_logout_entry_when_logged_in(self, client):
-        with client.session_transaction() as sess:
-            sess["username"] = USER_EMAIL
+    def test_should_redirect_to_login_page_when_anonymous(self, client):
         result = self.get(client)
 
+        assert result.status_code == 302
+        assert result.location == LOGIN_URL
+
+    def test_should_show_a_logout_entry_when_logged_in(self, auth_client):
+        result = self.get(auth_client)
         assert b"/logout" in result.data
 
 
 class TestLogin(BaseTest):
     url_name = "login"
+
+    def test_should_access_the_login_page(self, client):
+        result = self.get(client)
+
+        assert result.status_code == 200
+        assert b"Login" in result.data
+
+    def test_should_redirect_to_home_when_already_logged_in(self, auth_client):
+        result = self.get(auth_client)
+
+        assert result.status_code == 302
+        assert result.location == INDEX_URL
+
+
+class TestLoginStart(BaseTest):
+    url_name = "login_start"
 
     @patch.object(uuid, "uuid4", return_value="should-be-uuid")
     def test_should_redirect_to_oauth_authorize_url(self, _uuidMock, client):

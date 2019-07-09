@@ -1,5 +1,5 @@
-from urllib import parse
 from json.decoder import JSONDecodeError
+from urllib import parse
 
 import requests
 
