@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<div class="login center">
+  <h2>Ready to get things done?</h2>
+
+  <p>
+    To continue, log in to Github. It will create an account for you if you
+    don't have it already.
+  </p>
+  <a
+    class="waves-effect waves-light btn grey darken-3"
+    href="{{ url_for('login_start') }}"
+  >
+    Log in or sign up with Github</a
+  >
+</div>
+{% endblock %}

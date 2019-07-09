@@ -11,14 +11,23 @@ from flask import (
 )
 
 from . import auth
+from .decorators import login_required
 
 
+@login_required
 def index():
     username = session.get("username")
     return render_template("index.html", username=username)
 
 
 def login():
+    if bool(session.get("username")):
+        return redirect(url_for("index"))
+
+    return render_template("login.html")
+
+
+def login_start():
     state = uuid.uuid4()
     session["auth_state"] = state
 
@@ -66,5 +75,6 @@ def logout():
 def init_app(app):
     app.add_url_rule("/", "index", index)
     app.add_url_rule("/login", "login", login)
+    app.add_url_rule("/login/start", "login_start", login_start)
     app.add_url_rule("/login/complete", "login_complete", login_complete)
     app.add_url_rule("/logout", "logout", logout)
