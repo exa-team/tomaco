@@ -1,0 +1,24 @@
+dist: xenial
+language: python
+python:
+  - "3.7"
+before_install:
+  - pip install pipenv
+  - nvm install v10.15.3
+install:
+  - pipenv install --dev --deploy
+  - npm install
+jobs:
+  include:
+    - stage: "Quality checks"
+      name: "Javascript lint"
+      script: "npm run lint"
+    - name: "Python lint"
+      script: "pipenv run lint"
+    - name: "Security"
+      script: "pipenv run security"
+    - stage: "Tests"
+      name: "Javascript tests"
+      script: "npm run test"
+    - name: "Python tests"
+      script: "pipenv run test"
