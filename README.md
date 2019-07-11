@@ -1,5 +1,6 @@
 # Tomaco
 
+[![Build Status](https://travis-ci.org/exa-team/tomaco.svg?branch=master)](https://travis-ci.org/exa-team/tomaco)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Like "Tomacco", but without a "c" for copyright concerns.
