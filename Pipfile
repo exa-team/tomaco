@@ -12,6 +12,7 @@ bandit = "*"
 pytest-flask = "*"
 ipdb = "*"
 httmock = "*"
+pytest-cov = "*"
 
 [packages]
 gunicorn = "*"
@@ -27,6 +28,7 @@ allow_prereleases = true
 
 [scripts]
 test = "pytest ."
+test_coverage = "pytest --cov=tomaco --cov-report term-missing ."
 lint = "flake8 ."
 run = "flask run --host=0.0.0.0 --port=8080"
 security = "bandit -r ."
