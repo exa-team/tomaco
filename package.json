@@ -36,10 +36,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.5.4",
     "@babel/preset-env": "^7.4.4",
-    "brunch": "^2.10.17",
     "babel-brunch": "^7.0.1",
+    "brunch": "^2.10.17",
     "clean-css-brunch": "^2.10.0",
     "terser": "^4.0.2",
     "terser-brunch": "^3.0.0"
