@@ -22,6 +22,4 @@ jobs:
       name: "Javascript tests"
       script: "npm run test"
     - name: "Python tests"
-      script: "pipenv run test_coverage"
-after_success:
-  - coveralls
+      script: "pipenv run test_coverage && pipenv run coveralls"
