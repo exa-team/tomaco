@@ -7,7 +7,6 @@ before_install:
   - nvm install v10.15.3
 install:
   - pipenv install --dev --deploy
-  - pipenv install python-coveralls
   - npm install
 jobs:
   include:

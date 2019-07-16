@@ -4,22 +4,26 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pre-commit = "*"
-black = "*"
-pytest = "*"
-flake8 = "*"
 bandit = "*"
-pytest-flask = "*"
-ipdb = "*"
+black = "*"
+coverage = "==4.5.3"
+coveralls = "==1.8.1"
+flake8 = "*"
 httmock = "*"
-pytest-cov = "*"
-python-coveralls = "*"
+ipdb = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-flask = "*"
+pytest-cov = "==2.7.1"
+python-coveralls = "==2.9.2"
 
 [packages]
 gunicorn = "*"
-bandit = "==1.5.0"
 flask = "*"
 requests = "*"
+psycopg2 = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.7"

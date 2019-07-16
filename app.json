@@ -2,6 +2,7 @@
   "name": "Tomaco",
   "description": "Another pomodoro app. But free and better. Like joining tomato and tabaco. Or not.",
   "repository": "https://github.com/kplaube/tomaco",
+  "website": "http://tomaco.herokuapp.com",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -9,5 +10,23 @@
     {
       "url": "heroku/python"
     }
-  ]
+  ],
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "env": {
+    "DATABASE_URL": {
+      "description": "The database URL"
+    },
+    "GITHUB_CALLBACK_URI": {
+      "description": "The URI used as a callback by Github after auth process"
+    },
+    "GITHUB_CLIENT_ID": {
+      "description": "The application's client ID on Github"
+    },
+    "GITHUB_CLIENT_SECRET": {
+      "description": "The application's client secret on Github"
+    },
+    "SECRET_KEY": {
+      "description": "The secret value used to generate sessions"
+    }
+  }
 }
