@@ -28,6 +28,9 @@ setup:
 
 test: test-javascript test-python
 
+test-docker:
+	docker-compose run --rm app sh -c "npm run test & pytest ."
+
 test-javascript:
 	npm run test
 
