@@ -3,6 +3,7 @@ repos:
     rev: v1.2.3
     hooks:
       - id: flake8
+        exclude: migrations
       - id: trailing-whitespace
   - repo: https://github.com/ambv/black
     rev: stable

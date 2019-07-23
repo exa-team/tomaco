@@ -4,7 +4,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "should-be-a-secret-key")
 
 # Database
 SQLALCHEMY_DATABASE_URI = os.environ.get(
-    "DATABASE_URL", "postgresql://localhost/tomaco"
+    "DATABASE_URL", "postgresql://root@localhost/tomaco"
 )
 
 # Auth
