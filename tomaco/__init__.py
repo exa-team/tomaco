@@ -1,7 +1,9 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+
 from . import views
+from .auth import views as auth_views
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -16,5 +18,6 @@ def create_app():
     migrate.init_app(app, db)
 
     views.init_app(app)
+    auth_views.init_app(app)
 
     return app
