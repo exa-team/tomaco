@@ -3,9 +3,7 @@ from urllib import parse
 
 import requests
 
-
-class AuthException(Exception):
-    pass
+from .exceptions import AuthException
 
 
 def authorize_url(authorize_url, client_id, redirect_uri, scope, state):

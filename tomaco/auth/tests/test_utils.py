@@ -1,12 +1,8 @@
 import pytest
 from httmock import HTTMock, urlmatch
 
-from tomaco.auth import (
-    AuthException,
-    authorize_url,
-    get_user_details,
-    request_access_token,
-)
+from ..exceptions import AuthException
+from ..utils import authorize_url, get_user_details, request_access_token
 
 ACCESS_TOKEN = "should-be-access-token"
 ACCESS_TOKEN_URL = "http://access-token-server"
