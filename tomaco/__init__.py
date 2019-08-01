@@ -1,17 +1,16 @@
 from flask import Flask
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 
 from . import views
 from .auth import views as auth_views
+from .db import db
 
-db = SQLAlchemy()
 migrate = Migrate()
 
 
-def create_app():
+def create_app(app_settings):
     app = Flask(__name__)
-    app.config.from_pyfile("settings.py")
+    app.config.from_object(app_settings)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)

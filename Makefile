@@ -38,9 +38,9 @@ run-javascript:
 	npm run run
 
 run-python:
-	FLASK_APP=tomaco.wsgi:application FLASK_DEBUG=1 pipenv run run
+	FLASK_APP=tomaco.wsgi:application pipenv run run
 
-setup: setup-database setup-dependencies
+setup: setup-database setup-dependencies migrate
 
 setup-database:
 	@echo "\nConfiguring database..."
@@ -59,8 +59,8 @@ setup-dependencies:
 	@pre-commit
 
 migrate:
-	@echo "\Running migrations..."
-	cd tomaco; flask db migrate
+	@echo "Running migrations..."
+	cd tomaco; flask db upgrade
 
 test: test-javascript test-python
 
