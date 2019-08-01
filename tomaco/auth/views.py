@@ -12,6 +12,7 @@ from flask import (
 
 from .exceptions import AuthException
 from .utils import authorize_url, get_user_details, request_access_token
+from .models import User
 
 
 def login():
@@ -55,6 +56,10 @@ def login_complete():
         abort(401)
 
     session["username"] = user_details["email"]
+
+    # It doesn't do anything, it's just a temporary hack so the
+    # Flask-Migrate is able to recognize the models module
+    User(user_details["email"])
 
     return redirect(url_for("index"))
 

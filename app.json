@@ -13,6 +13,9 @@
   ],
   "addons": ["heroku-postgresql:hobby-dev"],
   "env": {
+    "APP_SETTINGS": {
+      "description": "The application settings used in runtime"
+    },
     "DATABASE_URL": {
       "description": "The database URL"
     },

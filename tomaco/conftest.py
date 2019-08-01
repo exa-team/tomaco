@@ -10,7 +10,7 @@ USER_EMAIL = "should-be-user-email"
 
 @pytest.fixture
 def app():
-    return create_app()
+    return create_app("tomaco.settings.Testing")
 
 
 @pytest.fixture
