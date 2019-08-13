@@ -11,8 +11,8 @@ from flask import (
 )
 
 from .exceptions import AuthException
+from .models import User, db
 from .utils import authorize_url, get_user_details, request_access_token
-from .models import User
 
 
 def login():
@@ -55,11 +55,10 @@ def login_complete():
     except AuthException:
         abort(401)
 
-    session["username"] = user_details["email"]
+    user = User.get_or_create(user_details["email"])
+    session["username"] = user.email
 
-    # It doesn't do anything, it's just a temporary hack so the
-    # Flask-Migrate is able to recognize the models module
-    User(user_details["email"])
+    db.session.commit()
 
     return redirect(url_for("index"))
 

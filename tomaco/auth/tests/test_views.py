@@ -4,11 +4,12 @@ from unittest.mock import patch
 from tomaco.conftest import INDEX_URL, USER_EMAIL
 from tomaco.tests import BaseTest
 
+from .. import models, views
 from ..exceptions import AuthException
-from .. import views
 
 ACCESS_TOKEN_PAYLOAD = {"access_token": ["should-be-access-token"]}
 USER_DETAILS_PAYLOAD = {"email": USER_EMAIL}
+USER_INSTANCE = models.User(email=USER_EMAIL)
 
 
 class TestLogin(BaseTest):
@@ -44,18 +45,32 @@ class TestLoginComplete(BaseTest):
 
     @patch.object(views, "request_access_token", return_value=ACCESS_TOKEN_PAYLOAD)
     @patch.object(views, "get_user_details", return_value=USER_DETAILS_PAYLOAD)
+    @patch.object(views.User, "get_or_create", return_value=USER_INSTANCE)
     def test_should_redirect_to_home(
-        self, _requestAccessTokenMock, _getUserDetailsMock, client
+        self, _userMock, _getUserDetailsMock, _requestAccessTokenMock, client
     ):
         result = self.get(client)
 
         assert result.status_code == 302
         assert result.location == INDEX_URL
 
+    @patch.object(views.User, "get_or_create", return_value=USER_INSTANCE)
+    @patch.object(views.db.session, "commit")
+    @patch.object(views, "get_user_details", return_value=USER_DETAILS_PAYLOAD)
+    @patch.object(views, "request_access_token", return_value=ACCESS_TOKEN_PAYLOAD)
+    def test_should_get_or_create_user_from_the_database(
+        self, _requestAccessTokenMock, _getUserDetailsMock, db_commit, userMock, client
+    ):
+        self.get(client)
+
+        userMock.assert_called_once_with(USER_EMAIL)
+        db_commit.assert_called()
+
     @patch.object(views, "request_access_token", return_value=ACCESS_TOKEN_PAYLOAD)
     @patch.object(views, "get_user_details", return_value=USER_DETAILS_PAYLOAD)
+    @patch.object(views.User, "get_or_create", return_value=USER_INSTANCE)
     def test_should_create_user_session(
-        self, _requestAccessTokenMock, _getUserDetailsMock, client
+        self, _userMock, _getUserDetailsMock, _requestAccessTokenMock, client
     ):
         self.get(client)
 
