@@ -1,6 +1,6 @@
 from flask import render_template, session
 
-from .decorators import login_required
+from tomaco.auth.decorators import login_required
 
 
 @login_required
