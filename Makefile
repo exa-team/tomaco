@@ -12,6 +12,7 @@ help:
 	@echo "setup ..................................... Setup the whole project for development purpose"
 	@echo "setup-database ............................ Configure the database for development purpose"
 	@echo "setup-dependencies ........................ Install frontend and backend dependencies"
+	@echo "makemigrate ............................... Create database migrations
 	@echo "migrate ................................... Run the database migration"
 	@echo "test ...................................... Run frontend and backend tests"
 	@echo "test-docker ............................... Run frontend and backend tests inside container"
@@ -57,6 +58,10 @@ setup-dependencies:
 	@npm install --save-dev
 	@echo "\nConfiguring pre-commit..."
 	@pre-commit
+
+makemigrate:
+	@echo "Creating migrations..."
+	cd tomaco; flask db migrate
 
 migrate:
 	@echo "Running migrations..."

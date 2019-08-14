@@ -4,7 +4,7 @@ import pytest
 from flask import url_for
 
 from tomaco.conftest import USER_EMAIL
-from tomaco.decorators import login_required, session
+from ..decorators import login_required, session
 
 
 @pytest.mark.usefixtures("app")
