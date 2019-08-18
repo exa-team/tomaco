@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-    app:
+    tomaco:
         build: .
         container_name: tomaco
         command: >
@@ -13,5 +13,24 @@ services:
         environment:
             FLASK_APP: "tomaco.wsgi:application"
             FLASK_DEBUG: "1"
+            GITHUB_CLIENT_ID: ""
+            GITHUB_CLIENT_SECRET: ""
+            DATABASE_URL: "postgresql://root@postgres/tomaco_dev"
         stdin_open: true
         tty: true
+        depends_on:
+            - postgres
+        links:
+            - postgres
+
+    postgres:
+        image: postgres:latest
+        container_name: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_DB=tomaco_dev
+        volumes:
+            - "./data/postgres:/var/lib/postgresql/data"
+        ports:
+            - 5432:5432
