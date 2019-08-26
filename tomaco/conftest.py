@@ -1,11 +1,12 @@
 import pytest
 
-from tomaco import create_app, db as app_db
+from tomaco import create_app
+from tomaco import db as app_db
+from tomaco.auth.models import User
 
 BASE_URL = "http://localhost"
 INDEX_URL = "{}/".format(BASE_URL)
 LOGIN_URL = "{}/login".format(BASE_URL)
-USER_EMAIL = "should-be-user-email"
 
 
 @pytest.fixture
@@ -23,10 +24,24 @@ def db(app):
 
 
 @pytest.fixture
-def auth_client(client):
+def user(db):
+    user = User(email="bilbo@baggins.middleearth")
+    user.save()
+
+    return user
+
+
+@pytest.fixture
+def auth_client(client, user):
     with client.session_transaction() as sess:
-        sess["username"] = USER_EMAIL
+        sess["username"] = user.email
 
     yield client
 
-    sess.pop("username")
+    if "username" in sess:
+        sess.pop("username")
+
+
+@pytest.fixture
+def db_session_commit_mock(mocker, db):
+    return mocker.patch.object(db.session, "commit")

@@ -23,3 +23,10 @@ class Interval(db.Model):
 
     def save(self):
         db.session.add(self)
+
+    @staticmethod
+    def create(user, interval_type):
+        interval_instance = Interval(user=user, type=interval_type)
+        interval_instance.save()
+
+        return interval_instance

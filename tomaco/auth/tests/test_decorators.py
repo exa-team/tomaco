@@ -3,13 +3,12 @@ from unittest.mock import patch
 import pytest
 from flask import url_for
 
-from tomaco.conftest import USER_EMAIL
 from ..decorators import login_required, session
 
 
 @pytest.mark.usefixtures("app")
 class TestLoginRequired:
-    @patch.object(session, "get", return_value=USER_EMAIL)
+    @patch.object(session, "get", return_value="foo")
     def test_should_execute_the_decorated_function_when_user_is_authenticated(
         self, _sessionMock
     ):
