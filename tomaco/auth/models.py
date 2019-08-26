@@ -1,4 +1,4 @@
-from tomaco.db import db
+from tomaco.db import db, DoesNotExist
 
 
 class User(db.Model):
@@ -15,11 +15,21 @@ class User(db.Model):
 
     @staticmethod
     def get_or_create(email):
-        user_instance = User.query.filter_by(email=email).first()
-        if user_instance:
-            return user_instance
+        try:
+            return User.get(email)
+        except DoesNotExist:
+            pass
 
         user_instance = User(email=email)
         user_instance.save()
+
+        return user_instance
+
+    @staticmethod
+    def get(email):
+        user_instance = User.query.filter_by(email=email).first()
+
+        if not user_instance:
+            raise DoesNotExist()
 
         return user_instance

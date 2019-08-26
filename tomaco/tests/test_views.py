@@ -1,9 +1,6 @@
-from tomaco.conftest import LOGIN_URL, USER_EMAIL
+from tomaco.conftest import LOGIN_URL
 
 from . import BaseTest
-
-ACCESS_TOKEN_PAYLOAD = {"access_token": ["should-be-access-token"]}
-USER_DETAILS_PAYLOAD = {"email": USER_EMAIL}
 
 
 class TestIndex(BaseTest):

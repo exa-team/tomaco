@@ -1,8 +1,5 @@
 import pytest
 
-from tomaco.auth.models import User
-from tomaco.conftest import USER_EMAIL
-
 from ..models import Interval
 
 
@@ -27,6 +24,8 @@ class TestInterval:
 
         assert bool(interval.finished_at)
 
-    @pytest.fixture
-    def user(self):
-        return User(email=USER_EMAIL)
+    def test_should_create_an_interval_in_the_database(self, db, user):
+        interval = Interval.create(user, Interval.POMODORO_TYPE)
+        db.session.commit()
+
+        assert bool(interval.id)
