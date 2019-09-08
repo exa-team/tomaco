@@ -8,6 +8,10 @@ export const secondsToMinutesAndSeconds = seconds => {
 };
 
 export function notify(message) {
+  if (window.M) {
+    M.toast({ html: message });
+  }
+
   if (window.Notification && Notification.permission === "granted") {
     const notification = new Notification(message);
 

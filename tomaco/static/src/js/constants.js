@@ -10,3 +10,8 @@ export const MESSAGES = {
   FOCUS_MODE_DONE: "Pomodoro done! Take a break.",
   REST_MODE_DONE: "Get back to work! :D"
 };
+
+export const INTERVAL = {
+  BREAK: "break",
+  POMODORO: "pomodoro"
+};
