@@ -1,6 +1,7 @@
+import * as fetchWrapper from "whatwg-fetch";
+import { MESSAGES, START_TEXT, STOP_TEXT } from "../src/js/constants";
 import Timer from "../src/js/main";
 import * as Utils from "../src/js/utils";
-import { MESSAGES, START_TEXT, STOP_TEXT } from "../src/js/constants";
 
 describe("Timer", () => {
   let $fakeButton;
@@ -219,63 +220,79 @@ describe("Timer", () => {
       expect(timer.isRunning).toBe(false);
     });
 
-    it("should set the rest mode when it reaches zero", () => {
-      timer.seconds = 0;
-      timer.timerInterval();
+    describe("when in focus mode", () => {
+      it("should set the rest mode when it reaches zero", () => {
+        timer.seconds = 0;
+        timer.timerInterval();
 
-      expect(timer.focusMode).toBe(false);
-      expect(timer.seconds).toEqual(300);
-    });
+        expect(timer.focusMode).toBe(false);
+        expect(timer.seconds).toEqual(300);
+      });
 
-    it("should show a toast when timer reaches zero", () => {
-      timer.seconds = 0;
-      timer.timerInterval();
+      it("should notify the user when timer reaches zero", () => {
+        jest.spyOn(Utils, "notify");
+        timer.seconds = 0;
+        timer.timerInterval();
 
-      expect(M.toast).toHaveBeenCalledWith({
-        html: MESSAGES.FOCUS_MODE_DONE
+        expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.FOCUS_MODE_DONE);
+      });
+
+      it("should increase the finished counter", () => {
+        timer.seconds = 0;
+        timer.timerInterval();
+
+        expect(timer.finishedPomodoros).toEqual(1);
+      });
+
+      it("should record the end of the session", () => {
+        jest.spyOn(fetchWrapper, "fetch");
+
+        timer.seconds = 0;
+        timer.timerInterval();
+
+        expect(fetchWrapper.fetch).toHaveBeenCalledWith("/interval", {
+          body: JSON.stringify({ type: "pomodoro" }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST"
+        });
       });
     });
 
-    it("should notify the user when timer reaches zero", () => {
-      jest.spyOn(Utils, "notify");
-      timer.seconds = 0;
-      timer.timerInterval();
+    describe("when in rest mode", () => {
+      it("should not increase the finished counter if it was a break session", () => {
+        timer.seconds = 0;
+        timer.setBreakTime();
+        timer.timerInterval();
 
-      expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.FOCUS_MODE_DONE);
-    });
-
-    it("should increase the finished counter", () => {
-      timer.seconds = 0;
-      timer.timerInterval();
-
-      expect(timer.finishedPomodoros).toEqual(1);
-    });
-
-    it("should not increase the finished counter if it was a break session", () => {
-      timer.seconds = 0;
-      timer.setBreakTime();
-      timer.timerInterval();
-
-      expect(timer.finishedPomodoros).toEqual(0);
-    });
-
-    it("should show a 'back to focus' toast when timer reaches zero", () => {
-      timer.seconds = 0;
-      timer.setBreakTime();
-      timer.timerInterval();
-
-      expect(M.toast).toHaveBeenCalledWith({
-        html: MESSAGES.REST_MODE_DONE
+        expect(timer.finishedPomodoros).toEqual(0);
       });
-    });
 
-    it("should notify the user to get back to focus mode when timer reaches zero", () => {
-      jest.spyOn(Utils, "notify");
-      timer.seconds = 0;
-      timer.setBreakTime();
-      timer.timerInterval();
+      it("should notify the user to get back to focus mode when timer reaches zero", () => {
+        jest.spyOn(Utils, "notify");
+        timer.seconds = 0;
+        timer.setBreakTime();
+        timer.timerInterval();
 
-      expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.REST_MODE_DONE);
+        expect(Utils.notify).toHaveBeenCalledWith(MESSAGES.REST_MODE_DONE);
+      });
+
+      it("should record the end of the session", () => {
+        jest.spyOn(fetchWrapper, "fetch");
+
+        timer.seconds = 0;
+        timer.setBreakTime();
+        timer.timerInterval();
+
+        expect(fetchWrapper.fetch).toHaveBeenCalledWith("/interval", {
+          body: JSON.stringify({ type: "break" }),
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST"
+        });
+      });
     });
   });
 });

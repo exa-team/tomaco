@@ -1,6 +1,8 @@
+import { fetch } from "whatwg-fetch";
 import {
   BREAK_STARTING_FROM,
   FOCUS_STARTING_FROM,
+  INTERVAL,
   MESSAGES,
   ONE_SECOND,
   PAUSE_TEXT,
@@ -130,9 +132,11 @@ export default class Timer {
     let message;
 
     if (this.focusMode) {
+      Timer.recordProgress(INTERVAL.POMODORO);
       this.finishedPomodoros += 1;
       message = MESSAGES.FOCUS_MODE_DONE;
     } else {
+      Timer.recordProgress(INTERVAL.BREAK);
       message = MESSAGES.REST_MODE_DONE;
     }
 
@@ -140,7 +144,16 @@ export default class Timer {
     this.stopTimer();
 
     notify(message);
-    M.toast({ html: message });
+  }
+
+  static recordProgress(type) {
+    fetch("/interval", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ type })
+    });
   }
 
   toggleFocusTime() {
