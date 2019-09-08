@@ -16,7 +16,8 @@ help:
 	@echo "setup-database ............................ Configure the database for development purpose"
 	@echo "setup-dependencies ........................ Install frontend and backend dependencies"
 	@echo "makemigrate ............................... Create database migrations
-	@echo "migrate ................................... Run the database migration"
+	@echo "migrate-down .............................. Run the database migration (downgrade)"
+	@echo "migrate-up................................. Run the database migration (upgrade)"
 	@echo "test ...................................... Run frontend and backend tests"
 	@echo "test-javascript ........................... Run the frontend tests"
 	@echo "test-python ............................... Run the backend tests"
@@ -75,7 +76,11 @@ makemigrate:
 	@echo "Creating migrations..."
 	cd tomaco; flask db migrate
 
-migrate:
+migrate-down:
+	@echo "Downgrading migrations..."
+	cd tomaco; flask db downgrade
+
+migrate-up:
 	@echo "Running migrations..."
 	cd tomaco; flask db upgrade
 

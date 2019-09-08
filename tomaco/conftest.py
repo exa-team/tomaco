@@ -25,7 +25,7 @@ def db(app):
 
 @pytest.fixture
 def user(db):
-    user = User(email="bilbo@baggins.middleearth")
+    user = User(username="bbaggins", email="bilbo@baggins.middleearth")
     user.save()
 
     return user

@@ -43,7 +43,7 @@ class TestLoginComplete(BaseTest):
 
     @pytest.fixture
     def get_user_details_mock(self, mocker, user):
-        data = {"email": user.email}
+        data = {"email": user.email, "login": user.username}
         return mocker.patch.object(views, "get_user_details", return_value=data)
 
     @pytest.fixture
@@ -70,7 +70,7 @@ class TestLoginComplete(BaseTest):
     ):
         self.get(client)
 
-        user_get_or_create_mock.assert_called_once_with(user.email)
+        user_get_or_create_mock.assert_called_once_with(user.username, email=user.email)
         db_session_commit_mock.assert_called()
 
     @pytest.mark.usefixtures(
@@ -80,7 +80,7 @@ class TestLoginComplete(BaseTest):
         self.get(client)
 
         with client.session_transaction() as sess:
-            assert sess["username"] == user.email
+            assert sess["username"] == user.username
 
     def test_should_show_a_unauthorized_when_authorization_fails(self, client, mocker):
         mocker.patch.object(
