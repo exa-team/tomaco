@@ -19,7 +19,7 @@ $ make setup
 If you prefer to user Docker. But make sure that you have [Docker]([https://www.docker.com/get-started](https://www.docker.com/get-started)) installed.
 
 ```
-$ docker-compose build
+$ make docker-setup
 ```
 
 ## Running
@@ -38,7 +38,7 @@ $ make -j2 run
 
 Or you can run application with Docker:
 ```
-$ docker-compose up
+$ make docker-run
 ```
 
 It's going to use Flask's development server, serving the service through `localhost:8080`, and Brunch building processes to deal with the assets.
@@ -54,6 +54,12 @@ In order to use the authentication engine (which relies on Github underneath the
 
 ```
 $ GITHUB_CLIENT_ID=<client_id> GITHUB_CLIENT_SECRET=<client_secret> make -j2 run
+```
+
+If you are using Docker, you must define the app environments in `services.tomaco.environment`
+```
+GITHUB_CLIENT_ID: "your-id"
+GITHUB_CLIENT_SECRET: "your-secret"
 ```
 
 ## Debugging
