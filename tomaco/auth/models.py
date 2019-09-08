@@ -5,7 +5,8 @@ class User(db.Model):
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String(), nullable=True)
+    username = db.Column(db.String(), nullable=False, unique=True)
 
     def __repr__(self):
         return "<id {}>".format(self.id)
@@ -14,20 +15,20 @@ class User(db.Model):
         db.session.add(self)
 
     @staticmethod
-    def get_or_create(email):
+    def get_or_create(username, **kwargs):
         try:
-            return User.get(email)
+            return User.get(username=username)
         except DoesNotExist:
             pass
 
-        user_instance = User(email=email)
+        user_instance = User(username=username, **kwargs)
         user_instance.save()
 
         return user_instance
 
     @staticmethod
-    def get(email):
-        user_instance = User.query.filter_by(email=email).first()
+    def get(**kwargs):
+        user_instance = User.query.filter_by(**kwargs).first()
 
         if not user_instance:
             raise DoesNotExist()

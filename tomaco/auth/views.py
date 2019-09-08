@@ -55,8 +55,8 @@ def login_complete():
     except AuthException:
         abort(401)
 
-    user = User.get_or_create(user_details["email"])
-    session["username"] = user.email
+    user = User.get_or_create(user_details["login"], email=user_details["email"])
+    session["username"] = user.username
 
     db.session.commit()
 
