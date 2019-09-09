@@ -34,8 +34,11 @@ python_version = "3.7"
 allow_prereleases = true
 
 [scripts]
-test = "pytest ."
-test_coverage = "pytest --cov=tomaco --cov-report term-missing tomaco"
+makemigrate = "flask db migrate"
+migrate_up = "flask db upgrade"
+migrate_down = "flask db downgrade"
 lint = "flake8 ."
 run = "flask run --host=0.0.0.0 --port=8080"
 security = "bandit -r ."
+test = "pytest ."
+test_coverage = "pytest --cov=tomaco --cov-report term-missing tomaco"

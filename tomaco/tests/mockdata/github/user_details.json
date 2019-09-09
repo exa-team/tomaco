@@ -1,0 +1,16 @@
+{
+  "request": {
+    "urlPath": "/user",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "login": "gandalf",
+      "email": "gandalf@middleearth.com"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

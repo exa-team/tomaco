@@ -16,7 +16,7 @@ Make sure that you have [_Python 3.7.x_](https://www.python.org/downloads/) and 
 $ make setup
 ```
 
-If you prefer to user Docker. But make sure that you have [Docker](<[https://www.docker.com/get-started](https://www.docker.com/get-started)>) installed.
+If you prefer you can use Docker. But make sure that you have [Docker](<[https://www.docker.com/get-started](https://www.docker.com/get-started)>) installed.
 
 ```
 $ make docker-setup
@@ -31,19 +31,33 @@ $ make run-javascript&
 $ make run-python
 ```
 
-A better option is to run than via the same Makefile task, but in parallel:
+A better option is to run them via the same Makefile task (it will run in parallel):
 
 ```
-$ make -j2 run
+$ make run
 ```
 
-Or you can run application with Docker:
+Or you can of course use Docker:
 
 ```
 $ make docker-run
 ```
 
-It's going to use Flask's development server, serving the service through `localhost:8080`, and Brunch building processes to deal with the assets.
+It's going to run Flask's development server, serving the service through `localhost:8080`, and Brunch building processes to deal with the assets.
+
+### Database migrations
+
+Make sure to run the database migrations after changes on the schema. The `migrate-up` task will help you out with this task:
+
+```
+$ make migrate-up
+```
+
+You can also run the same process, but in your Docker instance:
+
+```
+$ make docker-migrate
+```
 
 ### Authenticating via Github
 
@@ -63,6 +77,20 @@ If you are using Docker, you must define the app environments in `services.tomac
 ```
 GITHUB_CLIENT_ID: "your-id"
 GITHUB_CLIENT_SECRET: "your-secret"
+```
+
+### Authenticating via Wiremock (mocking the auth engine)
+
+If you want to mock the entire authentication process, you can rely on Wiremock to do so. The first step is to start the Docker container:
+
+```
+$ docker-compose up -d github
+```
+
+Now, point the application instance to the mocked environment:
+
+```
+$ GITHUB_AUTHORIZE_URL=http://localhost:8081/login/oauth/authorize GITHUB_ACCESS_TOKEN_URL=http://localhost:8081/login/oauth/access_token GITHUB_USER_RESOURCE_URL=http://localhost:8081/user make run
 ```
 
 ## Debugging
