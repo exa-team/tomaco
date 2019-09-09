@@ -1,0 +1,12 @@
+{
+  "request": {
+    "urlPathPattern": "/login/oauth/authorize",
+    "method": "GET"
+  },
+  "response": {
+    "status": 301,
+    "headers": {
+      "Location": "http://localhost:8080/login/complete"
+    }
+  }
+}

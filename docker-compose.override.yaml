@@ -1,0 +1,17 @@
+version: "3.5"
+services:
+  github:
+    image: rodolpheche/wiremock:2.18.0
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./tomaco/tests/mockdata/github:/home/wiremock/mappings
+    container_name: "github"
+
+  tomaco:
+    environment:
+      GITHUB_CLIENT_ID: "should-be-client-id"
+      GITHUB_CLIENT_SECRET: "should-be-client-secret"
+      GITHUB_AUTHORIZE_URL: http://localhost:8081/login/oauth/authorize # needs to be readed by web browser
+      GITHUB_ACCESS_TOKEN_URL: http://github:8080/login/oauth/access_token
+      GITHUB_USER_RESOURCE_URL: http://github:8080/user

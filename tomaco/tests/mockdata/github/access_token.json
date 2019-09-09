@@ -1,0 +1,10 @@
+{
+  "request": {
+    "urlPath": "/login/oauth/access_token",
+    "method": "POST"
+  },
+  "response": {
+    "status": 200,
+    "body": "access_token=should-be-user-access-token&token_type=bearer"
+  }
+}

@@ -5,8 +5,8 @@ help:
 	@echo "deploy .................................... Force the deploy to Heroku (must have a 'heroku' origin)"
 	@echo "docker-migrate ............................ Run the database migration inside container"
 	@echo "docker-run ................................ Run frontend and backend inside container"
-	@echo "docker-test ............................... Run frontend and backend tests inside container"
 	@echo "docker-setup .............................. Create and configure the application and database usinc containers"
+	@echo "docker-test ............................... Run frontend and backend tests inside container"
 	@echo "help ...................................... This screen"
 	@echo "lint ...................................... Evaluate code's quality"
 	@echo "run ....................................... Run frontend and backend (make -j2 run)"
@@ -15,7 +15,7 @@ help:
 	@echo "setup ..................................... Setup the whole project for development purpose"
 	@echo "setup-database ............................ Configure the database for development purpose"
 	@echo "setup-dependencies ........................ Install frontend and backend dependencies"
-	@echo "makemigrate ............................... Create database migrations
+	@echo "makemigrate ............................... Create database migrations"
 	@echo "migrate-down .............................. Run the database migration (downgrade)"
 	@echo "migrate-up................................. Run the database migration (upgrade)"
 	@echo "test ...................................... Run frontend and backend tests"
@@ -26,14 +26,14 @@ help:
 deploy:
 	git push heroku master
 
-docker-setup: docker-run docker-migrate
-
 docker-migrate:
-	docker-compose run --rm tomaco ./wait-for-it.sh -t 30 postgres:5432 -- \
+	docker-compose run --rm tomaco ./bin/wait-for-it.sh -t 30 postgres:5432 -- \
 		flask db upgrade --directory tomaco/migrations
 
 docker-run:
 	docker-compose up
+
+docker-setup: docker-run docker-migrate
 
 docker-test:
 	docker-compose run --rm app sh -c "npm run test & pytest ."
@@ -46,7 +46,8 @@ lint:
 	@echo "Security checks..."
 	pipenv run security
 
-run: run-javascript run-python
+run:
+	./bin/run.sh
 
 run-javascript:
 	npm run run
@@ -74,15 +75,15 @@ setup-dependencies:
 
 makemigrate:
 	@echo "Creating migrations..."
-	cd tomaco; flask db migrate
+	cd tomaco; pipenv run makemigrate
 
 migrate-down:
 	@echo "Downgrading migrations..."
-	cd tomaco; flask db downgrade
+	cd tomaco; pipenv run migrate_down
 
 migrate-up:
 	@echo "Running migrations..."
-	cd tomaco; flask db upgrade
+	cd tomaco; pipenv run migrate_up
 
 test: test-javascript test-python
 
