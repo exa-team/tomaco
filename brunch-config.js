@@ -15,6 +15,10 @@ module.exports = {
     compilers: ["babel-brunch"]
   },
   plugins: {
+    copycat: {
+      images: ["tomaco/static/src/images"],
+      manifest: ["tomaco/static/src/manifest.json"]
+    },
     cleancss: {
       keepSpecialComments: 0,
       removeEmpty: true
@@ -24,7 +28,7 @@ module.exports = {
       compress: {
         global_defs: {
           "@console.log": "alert"
-        },
+        }
       },
       output: {
         beautify: false,

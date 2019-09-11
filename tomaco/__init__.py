@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_migrate import Migrate
 
-from . import views
 from .auth import views as auth_views
+from .core import views as core_views
 from .db import db
 from .intervals import views as interval_views
 
@@ -17,8 +17,8 @@ def create_app(app_settings):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    views.init_app(app)
     auth_views.init_app(app)
+    core_views.init_app(app)
     interval_views.init_app(app)
 
     return app

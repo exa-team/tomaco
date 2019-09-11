@@ -42,6 +42,7 @@
     "brunch": "^2.10.17",
     "clean-css": "^4.2.1",
     "clean-css-brunch": "^2.10.0",
+    "copycat-brunch": "^1.1.1",
     "terser": "^4.0.2",
     "terser-brunch": "^3.0.0",
     "whatwg-fetch": "^3.0.0"

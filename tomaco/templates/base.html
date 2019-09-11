@@ -3,9 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <title>Tomaco - Your friendly Pomodoro tracker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafafa" />
+    <meta name="description" content="Your friendly Pomodoro tracker" />
 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#EE6E73" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Tomaco" />
+
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='build/images/favicon.ico') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='build/images/icon-152x152.png') }}"
+    />
+
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='build/manifest/manifest.json') }}"
+    />
     <link
       rel="styleshet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"

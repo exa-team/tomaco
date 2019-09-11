@@ -1,4 +1,3 @@
-
 # Tomaco
 
 [![Build Status](https://travis-ci.org/exa-team/tomaco.svg?branch=master)](https://travis-ci.org/exa-team/tomaco)
@@ -10,19 +9,21 @@ Like "Tomacco", but without a "c" for copyright concerns.
 Tomaco is a Pomodoro app, to leverage your productivity and help you getting things done.
 
 ## Instalation
+
 Make sure that you have [_Python 3.7.x_](https://www.python.org/downloads/) and [_Node 10.15.x_](https://nodejs.org/en/download/) installed. We strongly recommend the use of [_pyenv_](https://github.com/pyenv/pyenv) and [_nvm_](https://github.com/nvm-sh/nvm). In fact, the `pipenv install` command is going to run underneath the hood when installing the project via `Makefile`:
 
 ```
 $ make setup
 ```
 
-If you prefer to user Docker. But make sure that you have [Docker]([https://www.docker.com/get-started](https://www.docker.com/get-started)) installed.
+If you prefer to user Docker. But make sure that you have [Docker](<[https://www.docker.com/get-started](https://www.docker.com/get-started)>) installed.
 
 ```
 $ make docker-setup
 ```
 
 ## Running
+
 Since the project needs to serve both the web server and the build process for Javascript/CSS bundling, it's possible to run them in two different processes:
 
 ```
@@ -37,6 +38,7 @@ $ make -j2 run
 ```
 
 Or you can run application with Docker:
+
 ```
 $ make docker-run
 ```
@@ -57,17 +59,22 @@ $ GITHUB_CLIENT_ID=<client_id> GITHUB_CLIENT_SECRET=<client_secret> make -j2 run
 ```
 
 If you are using Docker, you must define the app environments in `services.tomaco.environment`
+
 ```
 GITHUB_CLIENT_ID: "your-id"
 GITHUB_CLIENT_SECRET: "your-secret"
 ```
 
 ## Debugging
-If you want to use `pdb` as debug tool when using Docker, you must attach a new  tty to be able to execute commands. In a new terminal:
+
+If you want to use `pdb` as debug tool when using Docker, you must attach a new tty to be able to execute commands. In a new terminal:
+
 ```
 $ docker attach tomaco
 ```
+
 To access the running instance of docker application, just run:
+
 ```
 $ docker exec -it tomaco bash
 ```
@@ -93,6 +100,7 @@ $ make test
 ```
 
 Or using docker:
+
 ```
 $ make test-docker
 ```
@@ -106,3 +114,7 @@ $ make lint
 ## Contributing
 
 Please read the [CONTRIBUTING.md](CONTRIBUTING.md) guide.
+
+## Credits
+
+Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/).
