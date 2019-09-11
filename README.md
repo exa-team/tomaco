@@ -114,7 +114,3 @@ $ make lint
 ## Contributing
 
 Please read the [CONTRIBUTING.md](CONTRIBUTING.md) guide.
-
-## Credits
-
-Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/).
