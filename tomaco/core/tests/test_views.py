@@ -1,6 +1,6 @@
 from tomaco.conftest import LOGIN_URL
 
-from . import BaseTest
+from tomaco.tests import BaseTest
 
 
 class TestIndex(BaseTest):
