@@ -53,9 +53,11 @@ run-javascript:
 	npm run run
 
 run-python:
-	FLASK_APP=tomaco.wsgi:application pipenv run run
+	FLASK_APP=tomaco.wsgi:application FLASK_ENV=development pipenv run run
 
 setup: setup-database setup-dependencies migrate
+	@echo "Create static folder..."
+	@mkdir -p tomaco/static
 
 setup-database:
 	@echo "\nConfiguring database..."

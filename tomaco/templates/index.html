@@ -17,7 +17,7 @@
   <div class="timer__finished_counter" id="timer__finished_counter"></div>
 </div>
 {% endblock %} {% block scripts %}
-<script src="{{ url_for('static', filename='build/main.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 <script>
   const Timer = require("tomaco/static/src/js/main.js").default;
   const $display = document.getElementById("timer__display");

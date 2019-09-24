@@ -93,6 +93,24 @@ Now, point the application instance to the mocked environment:
 $ GITHUB_AUTHORIZE_URL=http://localhost:8081/login/oauth/authorize GITHUB_ACCESS_TOKEN_URL=http://localhost:8081/login/oauth/access_token GITHUB_USER_RESOURCE_URL=http://localhost:8081/user make run
 ```
 
+## Project structure
+
+For now the project is a monolith, and in order to make it easier to find files we are inspired by [Cookiecutter-flask template](https://github.com/cookiecutter-flask/cookiecutter-flask):
+
+```
+- tomaco                project root folder
+    - frontend          the frontend related sources
+        - tests         frontend tests
+    - bin               executables
+    - tomaco            application root folder
+        - {app}
+            - tests     application specific backend tests
+        - migrations    the database migrations
+        - static        the frontend build destination folder
+        - templates     the HTML/JSON template folder
+        - tests         generic backend tests
+```
+
 ## Debugging
 
 If you want to use `pdb` as debug tool when using Docker, you must attach a new tty to be able to execute commands. In a new terminal:
