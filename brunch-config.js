@@ -8,16 +8,16 @@ module.exports = {
     }
   },
   paths: {
-    public: "tomaco/static/build",
-    watched: ["tomaco/static/src"]
+    public: "tomaco/static",
+    watched: ["frontend"]
   },
   npm: {
     compilers: ["babel-brunch"]
   },
   plugins: {
     copycat: {
-      images: ["tomaco/static/src/images"],
-      manifest: ["tomaco/static/src/manifest.json"]
+      images: ["frontend/images"],
+      public: ["frontend/public"]
     },
     cleancss: {
       keepSpecialComments: 0,

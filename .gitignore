@@ -115,3 +115,6 @@ data/
 
 # iOS stuff
 .DS_Store
+
+# Frontend stuff
+tomaco/static/*

@@ -39,7 +39,9 @@ class Development(Config):
     DEBUG = True
     DEVELOPMENT = True
     SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", "postgresql://root@localhost/tomaco_dev")
+        "DATABASE_URL", "postgresql://root@localhost/tomaco_dev"
+    )
+    TEMPLATE_AUTO_RELOAD = True
 
 
 class Testing(Config):

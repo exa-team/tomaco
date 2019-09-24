@@ -31,7 +31,7 @@
   },
   "scripts": {
     "build": "brunch build -p",
-    "lint": "eslint tomaco/static/src",
+    "lint": "eslint frontend",
     "run": "brunch watch",
     "test": "jest"
   },

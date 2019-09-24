@@ -1,7 +1,7 @@
 import * as fetchWrapper from "whatwg-fetch";
-import { MESSAGES, START_TEXT, STOP_TEXT } from "../src/js/constants";
-import Timer from "../src/js/main";
-import * as Utils from "../src/js/utils";
+import { MESSAGES, START_TEXT, STOP_TEXT } from "../js/constants";
+import Timer from "../js/main";
+import * as Utils from "../js/utils";
 
 describe("Timer", () => {
   let $fakeButton;
