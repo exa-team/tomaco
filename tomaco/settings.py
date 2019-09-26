@@ -41,9 +41,12 @@ class Development(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL", "postgresql://root@localhost/tomaco_dev"
     )
-    TEMPLATE_AUTO_RELOAD = True
 
 
 class Testing(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite://"
+
+
+class IntegrationTests(Testing):
+    SQLALCHEMY_DATABASE_URI = "postgresql://root@0.0.0.0:5432/tomaco_dev"

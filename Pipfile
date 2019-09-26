@@ -17,6 +17,7 @@ pytest-flask = "*"
 pytest-cov = "==2.7.1"
 python-coveralls = "==2.9.2"
 pytest-mock = "*"
+requests = "*"
 
 [packages]
 gunicorn = "*"
@@ -42,3 +43,4 @@ run = "flask run --host=0.0.0.0 --port=8080"
 security = "bandit -r ."
 test = "pytest ."
 test_coverage = "pytest --cov=tomaco --cov-report term-missing tomaco"
+test_integration = "pytest . -m 'integration'"

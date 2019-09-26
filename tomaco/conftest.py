@@ -1,3 +1,4 @@
+import requests
 import pytest
 
 from tomaco import create_app
@@ -10,8 +11,13 @@ LOGIN_URL = "{}/login".format(BASE_URL)
 
 
 @pytest.fixture
-def app():
-    return create_app("tomaco.settings.Testing")
+def app(request):
+    settings = (
+        "tomaco.settings.IntegrationTests"
+        if request.config.option.markexpr == "integration"
+        else "tomaco.settings.Testing"
+    )
+    return create_app(settings)
 
 
 @pytest.fixture
@@ -45,3 +51,8 @@ def auth_client(client, user):
 @pytest.fixture
 def db_session_commit_mock(mocker, db):
     return mocker.patch.object(db.session, "commit")
+
+
+@pytest.fixture
+def it_client(app):
+    return requests
