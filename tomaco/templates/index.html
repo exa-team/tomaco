@@ -19,7 +19,7 @@
 {% endblock %} {% block scripts %}
 <script src="{{ url_for('static', filename='main.js') }}"></script>
 <script>
-  const Timer = require("tomaco/static/src/js/main.js").default;
+  const Timer = require("frontend/js/main.js").default;
   const $display = document.getElementById("timer__display");
   const $button = document.getElementById("timer__button");
   const $finishedCounter = document.getElementById("timer__finished_counter");
