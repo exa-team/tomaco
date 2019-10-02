@@ -1,4 +1,5 @@
 [run]
 omit =
-    *tests/*
+    *conftest.py
+    *tests*
     *.html

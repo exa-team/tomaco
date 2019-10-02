@@ -19,6 +19,7 @@ help:
 	@echo "migrate-down .............................. Run the database migration (downgrade)"
 	@echo "migrate-up................................. Run the database migration (upgrade)"
 	@echo "test ...................................... Run frontend and backend tests"
+	@echo "test-it ................................... Run integration tests"
 	@echo "test-javascript ........................... Run the frontend tests"
 	@echo "test-python ............................... Run the backend tests"
 	@echo
@@ -95,3 +96,5 @@ test-javascript:
 test-python:
 	pipenv run test
 
+test-it:
+	pipenv run test_integration

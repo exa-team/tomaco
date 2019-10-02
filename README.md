@@ -151,6 +151,22 @@ Or using docker:
 $ make test-docker
 ```
 
+### Integration tests
+
+In order to execute the IT tests, first you need to start the Docker containers:
+
+```
+$ docker-compose up
+```
+
+After that, you are now able to run the integration tests:
+
+```
+$ make test-it
+```
+
+### Linting
+
 Linting is a good way of keeping the code quality high. You can have everything you want (Python, Javascript and security checks) in a single task:
 
 ```
